@@ -16,7 +16,7 @@ func main() {
 			floor -= 1
 		}
 		if floor == -1 {
-			print("Instruction: ", idx+1)
+			println("Instruction: ", idx+1)
 			break
 		}
 	}

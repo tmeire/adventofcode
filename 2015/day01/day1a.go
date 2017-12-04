@@ -18,5 +18,5 @@ func main() {
 			floor -= 1
 		}
 	}
-	print("Floor: ", floor)
+	println("Floor: ", floor)
 }

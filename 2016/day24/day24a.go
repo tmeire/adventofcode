@@ -17,13 +17,14 @@ func (g graph) walk() int {
 func (g graph) recWalk(path []byte, cost int) int {
 	// We've seen all nodes
 	if len(path) == len(g) {
-		// return cost
+		//return cost
 		// Part b, add the cost to travel back from the last node to 0
 		return cost + g[path[len(path)-1]]['0']
 	}
 
 	min := -1
 	for b, d := range g[path[len(path)-1]] {
+		fmt.Println(path, b)
 		if !contains(path, b) {
 			c := g.recWalk(append(path, b), cost+d)
 			if min == -1 || c < min {
