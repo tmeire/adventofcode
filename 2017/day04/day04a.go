@@ -9,17 +9,6 @@ import (
 	"strings"
 )
 
-type set map[string]struct{}
-
-func (s set) contains(x string) bool {
-	_, ok := s[x]
-	return ok
-}
-
-func (s set) put(x string) {
-	s[x] = struct{}{}
-}
-
 func bytesort(s string) string {
 	b := []byte(s)
 	sort.Slice(b, func(i, j int) bool { return b[i] < b[j] })
@@ -34,9 +23,9 @@ func isAnagram(f, s string) bool {
 }
 
 func validate(p string, strict bool) bool {
-	s := make(set)
+	s := collection.NewStringSet()
 	for _, f := range strings.Fields(p) {
-		if s.contains(f) {
+		if s.Contains(f) {
 			return false
 		}
 
@@ -48,7 +37,7 @@ func validate(p string, strict bool) bool {
 			}
 		}
 
-		s.put(f)
+		s.Put(f)
 	}
 	return true
 }

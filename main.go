@@ -1,10 +1,9 @@
 package main
 
 import (
-	"github.com/blackskad/adventofcode/2017/day02"
-	//"github.com/blackskad/adventofcode/2017/day04"
+	"github.com/blackskad/adventofcode/2017/day06"
 )
 
 func main() {
-	day02.Solve()
+	day06.Solve()
 }

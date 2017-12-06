@@ -23,7 +23,7 @@ func location(input int) (int, int) {
 
 	diff := input - prevsize
 
-	q := (size - prevsize) / 4
+	q := edge - 1
 
 	var x, y int
 	if diff < q { // right edge
@@ -43,33 +43,22 @@ func location(input int) (int, int) {
 	return x - mid, y - mid
 }
 
-type grid struct {
-	g map[int]map[int]int
-}
+type grid map[int]map[int]int
 
-func (g *grid) put(x, y int, sum int) {
-	r, ok := g.g[x]
+func (g grid) put(x, y int, sum int) {
+	r, ok := g[x]
 	if !ok {
 		r = make(map[int]int)
-		g.g[x] = r
+		g[x] = r
 	}
 	r[y] = sum
 }
 
-func (g *grid) value(x, y int) int {
-	if r, ok := g.g[x]; ok {
-		if c, ok := r[y]; ok {
-			return c
-		}
-	}
-	return 0
-}
-
-func (g *grid) compute(x, y int) int {
+func (g grid) compute(x, y int) int {
 	sum := 0
 	for i := -1; i <= 1; i++ {
 		for j := -1; j <= 1; j++ {
-			sum += g.value(x+i, y+j)
+			sum += g[x+i][y+j]
 		}
 	}
 	g.put(x, y, sum)
@@ -83,7 +72,7 @@ func partA(input int) {
 }
 
 func partB(input int) {
-	g := grid{make(map[int]map[int]int)}
+	g := make(grid)
 	g.put(0, 0, 1)
 
 	v := 0
