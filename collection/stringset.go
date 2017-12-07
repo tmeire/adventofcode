@@ -14,3 +14,7 @@ func (s StringSet) Contains(x string) bool {
 func (s StringSet) Put(x string) {
 	s[x] = struct{}{}
 }
+
+func (s StringSet) Delete(x string) {
+	delete(s, x)
+}

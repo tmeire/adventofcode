@@ -32,7 +32,7 @@ func (b banks) String() string {
 	return fmt.Sprintf("%v", []int(b))
 }
 
-func solveA(b banks) {
+func solve(b banks) {
 	steps := 0
 
 	set := make(map[string]int)
@@ -55,5 +55,5 @@ func solveA(b banks) {
 func Solve() {
 	input := []int{10, 3, 15, 10, 5, 15, 5, 15, 9, 2, 5, 8, 5, 2, 3, 6}
 
-	solveA(banks(input))
+	solve(banks(input))
 }
