@@ -10,11 +10,11 @@ import (
 )
 
 type Program struct {
-	name     string
-	weight   int
-	ids      []string
-	children []*Program
-	root     bool
+	name     string     // the name, read from input
+	weight   int        // the weight, read from input
+	ids      []string   // the ids of child programs, read from input
+	children []*Program // references to the other child programs
+	root     bool       // indicator to track the root node
 }
 
 func (n *Program) Weight() (int, int) {
@@ -58,7 +58,7 @@ func parse(s string) *Program {
 		panic(err)
 	}
 	if len(ss) > 1 {
-		p.ids = strings.Split(strings.Replace(ss[1], " ", "", -1), ",")
+		p.ids = strings.Split(ss[1], ", ")
 	}
 
 	return &p
