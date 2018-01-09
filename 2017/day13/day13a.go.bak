@@ -1,0 +1,120 @@
+package day13
+
+import (
+	"bufio"
+	"fmt"
+	"log"
+	"os"
+	"strconv"
+	"strings"
+)
+
+type Layer interface {
+	Severity() int
+	CaughtAt(timestamp int) bool
+}
+
+type ZeroLayer struct{}
+
+func (l ZeroLayer) Severity() int {
+	return 0
+}
+
+func (l ZeroLayer) CaughtAt(timestamp int) bool {
+	return false
+}
+
+type SecurityLayer struct {
+	Depth int
+	Range int
+}
+
+func (l SecurityLayer) Severity() int {
+	return l.Depth * l.Range
+}
+
+func (l SecurityLayer) CaughtAt(timestamp int) bool {
+	moves := timestamp % (2 * (l.Range - 1))
+	if moves < l.Range {
+		return moves == 0
+	}
+	return (2*(l.Range-1) - moves) == 0
+}
+
+type Firewall []Layer
+
+func (f Firewall) Passthrough() int {
+	sev := 0
+
+	// Pass through the firewall
+	for i, l := range f {
+		// Check if caught
+		if l.CaughtAt(i) {
+			sev += l.Severity()
+		}
+	}
+	return sev
+}
+
+func (f Firewall) CaughtAt(delay int) bool {
+	// Pass through each layer of the firewall
+	for i, l := range f {
+		// Check if caught
+		if l.CaughtAt(delay + i) {
+			return true
+		}
+	}
+	return false
+}
+
+func atoi(s string) int {
+	i, err := strconv.Atoi(s)
+	if err != nil {
+		panic(err)
+	}
+	return i
+}
+
+func load(fname string) []Layer {
+	file, err := os.Open(fname)
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer file.Close()
+
+	layers := []Layer{}
+	prevdepth := 0
+
+	scanner := bufio.NewScanner(file)
+	for scanner.Scan() {
+		o := strings.Split(scanner.Text(), ": ")
+		sl := &SecurityLayer{atoi(o[0]), atoi(o[1])}
+
+		// Add in a zero layer on indeces that are not in the input
+		for prevdepth < sl.Depth {
+			layers = append(layers, &ZeroLayer{})
+			prevdepth++
+		}
+
+		layers = append(layers, sl)
+		prevdepth++
+	}
+	return layers
+}
+
+func Solve() {
+	if len(os.Args) < 2 {
+		fmt.Println("Expected the input file name as commandline argument.")
+		os.Exit(1)
+	}
+
+	fw := Firewall(load(os.Args[1]))
+
+	fmt.Println("Part A:", fw.Passthrough())
+
+	delay := 1
+	for fw.CaughtAt(delay) {
+		delay++
+	}
+	fmt.Println("Part B:", delay)
+}

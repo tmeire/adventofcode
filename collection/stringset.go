@@ -11,8 +11,13 @@ func (s StringSet) Contains(x string) bool {
 	return ok
 }
 
-func (s StringSet) Put(x string) {
+func (s StringSet) Put(x string) bool {
+	if _, ok := s[x]; ok {
+		return false
+	}
+
 	s[x] = struct{}{}
+	return true
 }
 
 func (s StringSet) Delete(x string) {

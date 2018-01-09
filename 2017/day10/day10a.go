@@ -1,60 +1,13 @@
 package day10
 
-import "fmt"
+import (
+	"fmt"
 
-var HEXCHAR = []byte{'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'}
-
-type list []byte
-
-func (l list) reverse(pos, length int) {
-	for i := 0; i < length/2; i++ {
-		a := (pos + i) % len(l)
-		b := (pos + length - 1 - i) % len(l)
-
-		l[a], l[b] = l[b], l[a]
-	}
-}
-
-func (l list) Sparse(lengths []int, rounds int) list {
-	pos := 0
-	skip := 0
-
-	for i := 0; i < rounds; i++ {
-		for _, length := range lengths {
-			l.reverse(pos, length)
-			pos += length + skip
-			skip++
-		}
-	}
-	return l
-}
-
-func (l list) Dense() list {
-	d := make(list, 16)
-	idx := 0
-	for i := 0; i < 16; i++ {
-		var b byte
-		for j := 0; j < 16; j++ {
-			b ^= l[idx]
-			idx++
-		}
-		d[i] = b
-	}
-	return d
-}
-
-func (l list) Hex() string {
-	b := make([]byte, 32)
-	for i, v := range l {
-		b[2*i] = HEXCHAR[v/16]
-		b[2*i+1] = HEXCHAR[v%16]
-	}
-	return string(b)
-}
+	"github.com/blackskad/adventofcode/algo/knothash"
+)
 
 func Solve() {
-	l := make(list, 256)
-
+	l := make(knothash.List, 256)
 	for i := 0; i < 256; i++ {
 		l[i] = byte(i)
 	}
@@ -66,21 +19,7 @@ func Solve() {
 	// Multiply as ints to avoid byte overflow
 	fmt.Println("Part A:", int(l[0])*int(l[1]))
 
-	// reset the list
-	for i := 0; i < 256; i++ {
-		l[i] = byte(i)
-	}
-
 	input := "97,167,54,178,2,11,209,174,119,248,254,0,255,1,64,190"
 
-	lengths = make([]int, len(input), len(input)+5)
-	lengths = append(lengths, 17, 31, 73, 47, 23)
-
-	for i, b := range input {
-		lengths[i] = int(b)
-	}
-
-	h := l.Sparse(lengths, 64).Dense().Hex()
-
-	fmt.Printf("Part B: %s\n", h)
+	fmt.Printf("Part B: %s\n", knothash.Hash(input))
 }

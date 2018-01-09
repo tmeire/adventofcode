@@ -10,6 +10,7 @@ import (
 )
 
 type Layer interface {
+	PositionAt(delay int) int
 	Jump(delay int)
 	Move()
 	Severity() int
@@ -18,6 +19,10 @@ type Layer interface {
 }
 
 type ZeroLayer struct{}
+
+func (l *ZeroLayer) PositionAt(delay int) int {
+	return -1
+}
 
 func (l *ZeroLayer) Jump(delay int) {
 	// noop
@@ -45,6 +50,14 @@ type SecurityLayer struct {
 
 	Scanner int
 	Dir     bool
+}
+
+func (l *SecurityLayer) PositionAt(delay int) int {
+	moves := delay % (2 * (l.Range - 1))
+	if moves < l.Range {
+		return moves
+	}
+	return 2*(l.Range-1) - moves
 }
 
 func (l *SecurityLayer) Jump(delay int) {
@@ -107,23 +120,11 @@ func (f Firewall) Passthrough() int {
 }
 
 func (f Firewall) Caught(delay int) bool {
-	// Move the scanners forward for `delay` picoseconds.
-	for _, l := range f {
-		l.Jump(delay)
-	}
-
 	// Pass through the firewall
-	pos := -1
-	for i := 0; i < len(f); i++ {
-		// Move the packet forward
-		pos++
-		// Check if caught
-		if f[pos].Caught() {
+	for i, l := range f {
+		// Calculate the position and check if caught
+		if l.PositionAt(delay+i) == 0 {
 			return true
-		}
-		// Move the scanners forward
-		for _, l := range f {
-			l.Move()
 		}
 	}
 	return false
@@ -183,9 +184,7 @@ func Solve() {
 	fw.Reset()
 	delay := 1
 	for fw.Caught(delay) {
-		fw.Reset()
 		delay++
 	}
-	fmt.Printf("Delay %d not caught\n", delay)
 	fmt.Println("Part B:", delay)
 }
