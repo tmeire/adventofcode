@@ -1,3 +1,4 @@
+#!/bin/bash
 
 YEAR=$1
 DAY=$2
