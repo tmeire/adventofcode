@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/blackskad/adventofcode/algo/cpu"
+	"github.com/tmeire/adventofcode/algo/cpu"
 )
 
 func partB() int {

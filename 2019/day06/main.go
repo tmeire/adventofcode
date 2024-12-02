@@ -3,7 +3,7 @@ package main
 import (
 	"strings"
 
-	"github.com/blackskad/adventofcode/io"
+	"github.com/tmeire/adventofcode/io"
 )
 
 type object struct {

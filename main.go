@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/blackskad/adventofcode/2017/day13"
+	"github.com/tmeire/adventofcode/2017/day13"
 )
 
 func main() {

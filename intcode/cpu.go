@@ -37,8 +37,8 @@ func NewProgram(instructions []int64) *Program {
 		relbase: 0,
 
 		Stdout: make(chan int64),
-		Stdin:  make(chan int64, 1),
-		Done:   make(chan bool, 1),
+		Stdin:  make(chan int64),
+		Done:   make(chan bool),
 	}
 }
 

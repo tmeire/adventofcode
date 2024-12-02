@@ -3,7 +3,7 @@ package day10
 import (
 	"fmt"
 
-	"github.com/blackskad/adventofcode/algo/knothash"
+	"github.com/tmeire/adventofcode/algo/knothash"
 )
 
 func Solve() {

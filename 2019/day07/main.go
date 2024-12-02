@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/blackskad/adventofcode/intcode"
+	"github.com/tmeire/adventofcode/intcode"
 )
 
 var data = []int{

@@ -8,7 +8,7 @@ cat > main.go <<- EOM
 package main
 
 import(
-	"github.com/blackskad/adventofcode/${YEAR}/${DAY}"
+	"github.com/tmeire/adventofcode/${YEAR}/${DAY}"
 )
 
 func main() {

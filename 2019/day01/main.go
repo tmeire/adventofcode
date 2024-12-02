@@ -6,7 +6,7 @@ import (
 	"math"
 	"strconv"
 
-	"github.com/blackskad/adventofcode/io"
+	"github.com/tmeire/adventofcode/io"
 )
 
 func fuelForModule(mass float64) float64 {

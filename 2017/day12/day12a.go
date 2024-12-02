@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/blackskad/adventofcode/collection"
+	"github.com/tmeire/adventofcode/collection"
 )
 
 func Solve() {

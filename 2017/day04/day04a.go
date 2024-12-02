@@ -8,7 +8,7 @@ import (
 	"sort"
 	"strings"
 
-	"github.com/blackskad/adventofcode/collection"
+	"github.com/tmeire/adventofcode/collection"
 )
 
 func bytesort(s string) string {

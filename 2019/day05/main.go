@@ -1,6 +1,6 @@
 package main
 
-import "github.com/blackskad/adventofcode/intcode"
+import "github.com/tmeire/adventofcode/intcode"
 
 var programData = []int{3, 225, 1, 225, 6, 6, 1100, 1, 238, 225, 104, 0, 2,
 	136, 183, 224, 101, -5304, 224, 224, 4, 224, 1002, 223, 8, 223, 1001, 224,

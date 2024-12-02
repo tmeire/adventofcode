@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"math/bits"
 
-	"github.com/blackskad/adventofcode/algo/knothash"
+	"github.com/tmeire/adventofcode/algo/knothash"
 )
 
 func htoi(b byte) byte {
