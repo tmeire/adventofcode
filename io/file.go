@@ -2,6 +2,8 @@ package io
 
 import (
 	"bufio"
+	"bytes"
+	"io"
 	"os"
 )
 
@@ -24,4 +26,20 @@ func ReadLinesFromFile(filename string) ([]string, error) {
 		return []string{}, err
 	}
 	return lines, nil
+}
+
+// ReadLinesFromFile reads all lines of a file into a slice of strings
+func ReadByteLinesFromFile(filename string) ([][]byte, error) {
+	file, err := os.Open(filename)
+	if err != nil {
+		return nil, err
+	}
+	defer file.Close()
+
+	b, err := io.ReadAll(file)
+	if err != nil {
+		return nil, err
+	}
+
+	return bytes.Split(b, []byte{'\n'}), nil
 }
