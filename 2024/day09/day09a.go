@@ -168,6 +168,61 @@ func printRegions(head *region) {
 	println()
 }
 
+func compressByBlock(head, tail *region) *region {
+	reg := tail
+	for reg != head {
+		if reg.fileID == -1 {
+			reg = reg.p
+			continue
+		}
+		r := head
+		for r.fileID != -1 && r != reg {
+			r = r.n
+		}
+		if r == reg {
+			// skip this block, can't move
+			reg = reg.p
+			continue
+		}
+		if r.length > reg.length {
+			r.n = &region{
+				p:      r,
+				n:      r.n,
+				fileID: -1,
+				length: r.length - reg.length,
+			}
+			r.n.n.p = r.n
+			r.length = reg.length
+			r.fileID = reg.fileID
+			reg.fileID = -1
+		} else {
+			r.fileID = reg.fileID
+			reg.length -= r.length
+			reg.n = &region{
+				p:      reg,
+				n:      reg.n,
+				fileID: -1,
+				length: r.length,
+			}
+			if reg.n.n != nil {
+				reg.n.n.p = r.n
+			}
+		}
+		if reg.fileID == -1 {
+			reg = reg.p
+		}
+		//printRegions(head)
+	}
+	return head
+}
+
+func part1(diskmap []byte) {
+	first, last := regions(diskmap)
+	first = compressByBlock(first, last)
+	chksmRegions := checksumRegions(first)
+	println(chksmRegions)
+}
+
 func Solve() {
 	diskmap, err := os.ReadFile("./2024/day09/input.txt")
 	if err != nil {
@@ -175,12 +230,19 @@ func Solve() {
 	}
 
 	blocks := explode(diskmap)
+
 	compressed := compress(blocks)
+
 	chksm := checksum(compressed)
+	// 6385338159127
 	println(chksm)
+
+	part1(diskmap)
 
 	first, last := regions(diskmap)
 	first = compressRegion(first, last)
 	chksmRegions := checksumRegions(first)
 	println(chksmRegions)
+	// 6419633691863
+	// 6415163624282
 }
