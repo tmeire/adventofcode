@@ -41,22 +41,30 @@ func Solve() {
 		// for each id in the range
 		for i := rr.low; i <= rr.high; i++ {
 			id := fmt.Sprintf("%d", i)
+			// part 1
+			//if len(id)%2 == 0 {
+			//	if id[:(len(id)/2)+1] == id[len(id)/2:] {
+			//		sum += i
+			//	}
+			//}
 			// for each (subsequently shorter) repeating substring length
+			// start with the long substrings first as they require fewer iterations to check
 			for n := len(id) / 2; n > 0; n-- {
 				// skip the string manipulation if it's not divisible by n anyway
-				if len(id)%n == 0 {
-					match := true
-					for j := 1; j < len(id)/n; j++ {
-						if id[:n] != id[j*n:j*n+n] {
-							match = false
-							break
-						}
-					}
-					// if it matches, add the id to the sum and stop iterating
-					if match {
-						sum += i
+				if len(id)%n != 0 {
+					continue
+				}
+				match := true
+				for j := 1; j < len(id)/n; j++ {
+					if id[:n] != id[j*n:j*n+n] {
+						match = false
 						break
 					}
+				}
+				// if it matches, add the id to the sum and stop iterating
+				if match {
+					sum += i
+					break
 				}
 			}
 		}
